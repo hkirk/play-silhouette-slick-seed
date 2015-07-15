@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
   specs2 % Test,
   "com.typesafe.play" %% "play-slick" % "1.0.0",
   "com.typesafe.play" %% "play-slick-evolutions" % "1.0.0",
-  "com.h2database" % "h2" % "1.4.187",
+"mysql"                     %  "mysql-connector-java"          % "5.1.27",
   cache,
   evolutions,
   filters
