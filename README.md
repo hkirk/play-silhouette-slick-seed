@@ -1,12 +1,16 @@
 Silhouette Slick Seed Template
 ==============================
 
-This is a fork of the official Silhouette Seed project. If you want to have a first look at Silhouette, I suggest you have a look at the [official project](https://github.com/mohiva/play-silhouette-seed).
+This is a fork of the official Silhouette Seed project. If you want to have a first look at Silhouette, I suggest you have a look at the [official project](https://github.com/mohiva/play-silhouette-seed). This project is forked from [Silhouette Slick][https://github.com/sbrunk/play-silhouette-slick-seed] and changed to use MySQL and Semantic UI.
 
 The Silhouette Seed project is an Activator template which shows how [Silhouette](https://github.com/mohiva/play-silhouette) can be implemented in a Play Framework application. It's a starting point which can be extended to fit your needs.
 It uses the [play-slick](https://github.com/playframework/play-slick) library for database access.
 
 ## Example
+
+Create a database and changed the name in conf/application.conf and start project.
+
+Deploy til Heroku isn't tested
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
