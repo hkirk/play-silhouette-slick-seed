@@ -1,6 +1,4 @@
-@(title: String, user: Option[models.User] = None, cssOpt: Option[String] = None, useMap: Boolean = false, currentPage: String = "")(content: Html)
-
-@import play.i18n._
+@(title: String, userOpt: Option[models.User] = None, cssOpt: Option[String] = None, useMap: Boolean = false, currentPage: String = "")(content: Html)(implicit request: RequestHeader, lang: Lang, messages: Messages)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,6 +60,7 @@
       <div class="ui large collapsible menu">
         <div class="container">
 
+          @userOpt.map({user => showSignOut() })
         </div>
       </div>
 
@@ -100,3 +99,12 @@
     </main>
   </body>
 </html>
+
+@showSignOut() = {
+  <div class="right menu">
+    <a class="ui item" href="@routes.ApplicationController.signOut()">
+      @Messages("signOut")
+    </a>
+  </div>
+
+}
