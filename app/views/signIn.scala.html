@@ -1,14 +1,14 @@
-@(signInForm: Form[forms.SignInForm.Data], socialProviders: com.mohiva.play.silhouette.impl.providers.SocialProviderRegistry)(implicit request: RequestHeader, lang: Lang, messages: Messages)
+@(signInForm: Form[forms.SignInForm.Data], socialProviders: com.mohiva.play.silhouette.impl.providers.SocialProviderRegistry)(implicit request: RequestHeader, messages: Messages)
 
 @import com.mohiva.play.silhouette.impl.providers.oauth2.ClefProvider
 @import views.html.helper.semantic.form._
 
-@main(Messages("signin")) {
+@main(Messages("sign.in.title")) {
   <div class="ui two column centered grid">
     <div class="column">
       <div class="ui message">
         <p>
-                @signIn()
+          @signIn()
         </p>
       </div>
     </div>
@@ -34,19 +34,19 @@
 
       @text(signInForm("email"), Messages("email"), Messages("email.placeholder"), true)
       @password(signInForm("password"), Messages("password"), Messages("password.placeholder"), true)
-      @checkbox(signInForm("rememberMe"), Messages("signin.remember"), "checkbox", required = false, checked = true)
-      <input id="submit" type="submit" class="ui primary button" value="@Messages("login")">
+      @checkbox(signInForm("rememberMe"), Messages("remember.me"), "checkbox", required = false, checked = true)
+      <input id="submit" type="submit" class="ui primary button" value="@Messages("sign.in")">
 
       <div>
-        <p class="not-a-member">@Messages("signin.noAccount")? <a href="@routes.ApplicationController.signUp">@Messages("signin.now")</a></p>
+        <p class="not-a-member">@Messages("signin.noAccount")? <a href="@routes.ApplicationController.signUp">@Messages("sign.up.now")</a></p>
       </div>
 
       @if(socialProviders.providers.nonEmpty) {
         <div class="social-providers">
-          <p>@Messages("signin.existingAccounts")</p>
+          <p>@Messages("or.use.social")</p>
           <div>
           @for(p <- socialProviders.providers if p.id != "clef") {
-            <a href="@routes.SocialAuthController.authenticate(p.id)" class="provider @p.id"><img src="@routes.Assets.at(s"images/providers/${p.id}.png")" style="width : 64 px ; height : 64 px ;"></a>
+            <a href="@routes.SocialAuthController.authenticate(p.id)" class="provider @p.id" title="@Messages(p.id)"><img src="@routes.Assets.at(s"images/providers/${p.id}.png")" style="width : 64 px ; height : 64 px ;" alt="@Messages(p.id)"></a>
           }
           </div>
           @defining(socialProviders.get[ClefProvider]) { clef =>
@@ -58,5 +58,4 @@
       }
 
     </fieldset>
-  </form>
 }

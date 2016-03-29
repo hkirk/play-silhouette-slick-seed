@@ -3,14 +3,16 @@ package models.daos
 import com.mohiva.play.silhouette.api.LoginInfo
 import com.mohiva.play.silhouette.impl.daos.DelegableAuthInfoDAO
 import com.mohiva.play.silhouette.impl.providers.OAuth2Info
+import javax.inject.Inject
 import play.api.libs.concurrent.Execution.Implicits._
-
+import play.api.db.slick.DatabaseConfigProvider
 import scala.concurrent.Future
 
 /**
  * The DAO to store the OAuth2 information.
  */
-class OAuth2InfoDAO extends DelegableAuthInfoDAO[OAuth2Info] with DAOSlick {
+class OAuth2InfoDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
+    extends DelegableAuthInfoDAO[OAuth2Info] with DAOSlick {
 
   import driver.api._
 
@@ -18,7 +20,7 @@ class OAuth2InfoDAO extends DelegableAuthInfoDAO[OAuth2Info] with DAOSlick {
     dbLoginInfo <- loginInfoQuery(loginInfo)
     dbOAuth2Info <- slickOAuth2Infos if dbOAuth2Info.loginInfoId === dbLoginInfo.id
   } yield dbOAuth2Info
-  
+
   // Use subquery workaround instead of join to get authinfo because slick only supports selecting
   // from a single table for update/delete queries (https://github.com/slick/slick/issues/684).
   protected def oAuth2InfoSubQuery(loginInfo: LoginInfo) =

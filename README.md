@@ -28,6 +28,8 @@ Currently, there is no live example of this template.
 * Publishing Events
 * Avatar service
 * Remember me functionality
+* [Security headers](https://www.playframework.com/documentation/2.4.x/SecurityHeaders)
+* [CSRF Protection](https://www.playframework.com/documentation/2.4.x/ScalaCsrf)
 * play-slick database access
 
 ## Documentation

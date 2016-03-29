@@ -4,13 +4,16 @@ import com.mohiva.play.silhouette.api.LoginInfo
 import com.mohiva.play.silhouette.api.util.PasswordInfo
 import com.mohiva.play.silhouette.impl.daos.DelegableAuthInfoDAO
 import play.api.libs.concurrent.Execution.Implicits._
-
+import javax.inject.Inject
+import play.api.libs.concurrent.Execution.Implicits._
+import play.api.db.slick.DatabaseConfigProvider
 import scala.concurrent.Future
 
 /**
  * The DAO to store the password information.
  */
-class PasswordInfoDAO extends DelegableAuthInfoDAO[PasswordInfo] with DAOSlick{
+class PasswordInfoDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
+    extends DelegableAuthInfoDAO[PasswordInfo] with DAOSlick {
 
   import driver.api._
 

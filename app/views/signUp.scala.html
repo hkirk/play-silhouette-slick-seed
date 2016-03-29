@@ -2,7 +2,7 @@
 
 @import views.html.helper.semantic.form._
 
-@main(Messages("signup")) {
+@main(Messages("sign.up.title")) {
   <div class="ui two column centered grid">
     <div class="column">
       <div class="ui message">
@@ -21,15 +21,15 @@
       <legend>@Messages("signup")</legend>
         @message()
         @helper.CSRF.formField
-        @text(signInForm("firstName"), Messages("first"), Messages("first"), true)
-        @text(signInForm("lastName"), Messages("last"), Messages("last"), true)
+        @text(signInForm("firstName"), Messages("first.name"), Messages("first.name"), true)
+        @text(signInForm("lastName"), Messages("last.name"), Messages("last.name"), true)
         @text(signInForm("email"), Messages("email"), Messages("email"), true)
         @password(signInForm("password"), Messages("password"), Messages("password"), true)
-        <input id="submit" type="submit" value="@Messages("signup.create")" class="ui primary button"/>
+        <input id="submit" type="submit" value="@Messages("sign.up")" class="ui primary button"/>
     </fieldset>
   </form>
   <div class="sign-in-now">
-    <p>@Messages("signup.existingAccount")? <a href="@routes.ApplicationController.signIn">@Messages("signup.signIn")</a></p>
+    <p>@Messages("signup.existingAccount")? <a href="@routes.ApplicationController.signIn">@Messages("sign.in.non")</a></p>
   </div>
 }
 

@@ -1,9 +1,15 @@
-@(title: String, userOpt: Option[models.User] = None, cssOpt: Option[String] = None, useMap: Boolean = false, currentPage: String = "")(content: Html)(implicit request: RequestHeader, lang: Lang, messages: Messages)
+@(title: String, user: Option[models.User] = None, cssOpt: Option[String] = None, useMap: Boolean = false, currentPage: String = "")(content: Html)(implicit messages: Messages)
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
     <title>@title</title>
+    <link href="//fonts.googleapis.com/css?family=Roboto|Montserrat:400,700|Open+Sans:400,300,600" rel="stylesheet">
+
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("styles/semantic/semantic.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.at("styles/main.css")">
     @cssOpt.map { css =>
