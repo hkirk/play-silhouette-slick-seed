@@ -1,11 +1,13 @@
 package models.daos
 
 import com.mohiva.play.silhouette.api.LoginInfo
-import com.mohiva.play.silhouette.impl.daos.DelegableAuthInfoDAO
 import com.mohiva.play.silhouette.impl.providers.OAuth2Info
 import javax.inject.Inject
+
+import com.mohiva.play.silhouette.persistence.daos.DelegableAuthInfoDAO
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.db.slick.DatabaseConfigProvider
+
 import scala.concurrent.Future
 
 /**

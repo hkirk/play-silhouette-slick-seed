@@ -2,12 +2,14 @@ package controllers
 
 import javax.inject.Inject
 
-import com.mohiva.play.silhouette.api.{ Environment, LogoutEvent, Silhouette }
+import com.mohiva.play.silhouette.api.{Environment, LogoutEvent, Silhouette, SilhouetteProvider}
 import com.mohiva.play.silhouette.impl.authenticators.CookieAuthenticator
 import com.mohiva.play.silhouette.impl.providers.SocialProviderRegistry
 import forms._
 import models.User
-import play.api.i18n.MessagesApi
+import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.mvc.Controller
+import utils.CookieEnv
 
 import scala.concurrent.Future
 
@@ -18,15 +20,18 @@ import scala.concurrent.Future
  * @param env The Silhouette environment.
  * @param socialProviderRegistry The social provider registry.
  */
-class ApplicationController @Inject() (val messagesApi: MessagesApi, val env: Environment[User, CookieAuthenticator], socialProviderRegistry: SocialProviderRegistry)
-  extends Silhouette[User, CookieAuthenticator] {
+class ApplicationController @Inject() (val silhouette: SilhouetteProvider[CookieEnv],
+                                       val messagesApi: MessagesApi,
+                                       val env: Environment[CookieEnv],
+                                       socialProviderRegistry: SocialProviderRegistry)
+  extends Controller with I18nSupport {
 
   /**
    * Handles the index action.
    *
    * @return The result to display.
    */
-  def index = SecuredAction.async { implicit request =>
+  def index = silhouette.SecuredAction.async { implicit request =>
     Future.successful(Ok(views.html.account(request.identity)))
   }
 
@@ -35,7 +40,7 @@ class ApplicationController @Inject() (val messagesApi: MessagesApi, val env: En
    *
    * @return The result to display.
    */
-  def signIn = UserAwareAction.async { implicit request =>
+  def signIn = silhouette.UserAwareAction.async { implicit request =>
     request.identity match {
       case Some(user) => Future.successful(Redirect(routes.ApplicationController.index()))
       case None => Future.successful(Ok(views.html.signIn(SignInForm.form, socialProviderRegistry)))
@@ -47,7 +52,7 @@ class ApplicationController @Inject() (val messagesApi: MessagesApi, val env: En
    *
    * @return The result to display.
    */
-  def signUp = UserAwareAction.async { implicit request =>
+  def signUp = silhouette.UserAwareAction.async { implicit request =>
     request.identity match {
       case Some(user) => Future.successful(Redirect(routes.ApplicationController.index()))
       case None => Future.successful(Ok(views.html.signUp(SignUpForm.form)))
@@ -59,9 +64,9 @@ class ApplicationController @Inject() (val messagesApi: MessagesApi, val env: En
    *
    * @return The result to display.
    */
-  def signOut = SecuredAction.async { implicit request =>
+  def signOut = silhouette.SecuredAction.async { implicit request =>
     val result = Redirect(routes.ApplicationController.index())
-    env.eventBus.publish(LogoutEvent(request.identity, request, request2Messages))
+    env.eventBus.publish(LogoutEvent(request.identity, request))
 
     env.authenticatorService.discard(request.authenticator, result)
   }
